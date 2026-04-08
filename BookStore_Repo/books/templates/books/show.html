@@ -1,0 +1,252 @@
+{% extends 'books/base.html' %}
+
+{% block title %}{% if book %}{{ book.title }}{% else %}Book Details{% endif %} - Book Store{% endblock %}
+
+{% block extra_css %}
+        .book-detail {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .book-image-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .book-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-height: 500px;
+        }
+
+        .book-info-section {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .book-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .book-brief {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .book-details-list {
+            background-color: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 150px;
+        }
+
+        .detail-value {
+            color: #333;
+            text-align: right;
+        }
+
+        .price-section {
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #c0392b 100%);
+            border-radius: 8px;
+            color: white;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .price-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .price-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary-action {
+            flex: 1;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add-cart {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-add-cart:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-wishlist {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .btn-wishlist:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .book-detail {
+                padding: 1.5rem;
+            }
+
+            .book-info-section {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .book-title {
+                font-size: 1.75rem;
+            }
+
+            .price-value {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .detail-item {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
+
+            .book-image-section {
+                flex: 0 0 auto;
+            }
+        }
+{% endblock %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-section">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'books_index' %}">Books</a></li>
+                    <li class="breadcrumb-item active">{% if book %}{{ book.title }}{% else %}Book Details{% endif %}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if book %}
+        <div class="book-detail">
+            <div class="book-info-section">
+                <div class="book-image-section" style="flex: 0 0 300px;">
+                    <img src="{{ book.image }}" alt="{{ book.title }}" class="book-image">
+                </div>
+                
+                <div style="flex: 1;">
+                    <h1 class="book-title">{{ book.title }}</h1>
+                    
+                    <p class="book-brief">{{ book.brief }}</p>
+                    
+                    <div class="book-details-list">
+                        <div class="detail-item">
+                            <span class="detail-label">📄 Pages:</span>
+                            <span class="detail-value">{{ book.no_of_page }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">📚 Category:</span>
+                            <span class="detail-value">Fiction</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">⭐ Rating:</span>
+                            <span class="detail-value">4.5/5 (125 reviews)</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">✓ Availability:</span>
+                            <span class="detail-value" style="color: #27ae60;">In Stock</span>
+                        </div>
+                    </div>
+                    
+                    <div class="price-section">
+                        <div class="price-label">Current Price</div>
+                        <div class="price-value">${{ book.price }}</div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn-primary-action btn-add-cart" onclick="alert('Added to cart!')">
+                            🛒 Add to Cart
+                        </button>
+                        <button class="btn-primary-action btn-wishlist" onclick="alert('Added to wishlist!')">
+                            ❤️ Add to Wishlist
+                        </button>
+                    </div>
+                    
+                    <a href="{% url 'books_index' %}" class="btn-back">← Back to Books</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="error-message">
+            <h3>⚠️ Book Not Found</h3>
+            <p>Sorry, we couldn't find the book you're looking for. The book might have been removed or the ID is incorrect.</p>
+            <a href="{% url 'books_index' %}" class="btn-back">← Back to Books</a>
+        </div>
+    {% endif %}
+{% endblock %}
