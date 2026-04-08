@@ -14,9 +14,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+"""
+URL configuration for BookStore_Repo project.
+"""
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('books/', include('books.urls')),
+    path('authors/', include('authors.urls')),
+    path('contact/', include('contactus.urls')),
+    path('about/', include('aboutus.urls')),
 ]
+
+# Error handlers
+handler404 = TemplateView.as_view(template_name='404.html')
