@@ -1,0 +1,176 @@
+{% extends 'authors/base.html' %}
+
+{% block title %}Authors - Book Store{% endblock %}
+
+{% block extra_css %}
+        .authors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .author-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .author-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .author-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background-color: #e9ecef;
+        }
+
+        .author-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .author-bio {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .author-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .author-years {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .author-nationality {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .author-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .author-actions .btn-view {
+            flex: 1;
+            padding: 0.75rem;
+        }
+
+        .author-actions .btn-follow {
+            flex: 1;
+            padding: 0.75rem;
+        }
+
+        .btn-follow {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-follow:hover {
+            background-color: #c0392b;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .authors-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+{% endblock %}
+
+{% block header %}
+    <div class="header">
+        <div class="container">
+            <h1>✍️ Our Authors</h1>
+            <p>Meet the brilliant minds behind our books</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if authors %}
+        <div class="authors-grid">
+            {% for author in authors %}
+                <div class="author-card">
+                    <img src="{{ author.image }}" alt="{{ author.name }}" class="author-image">
+                    <div class="author-content">
+                        <h2 class="author-name">{{ author.name }}</h2>
+                        <p class="author-bio">{{ author.bio }}</p>
+                        
+                        <div class="author-meta">
+                            <span class="author-years">
+                                📅 {{ author.birth_year }}-{{ author.death_year }}
+                            </span>
+                            <span class="author-nationality">{{ author.nationality }}</span>
+                        </div>
+                        
+                        <div class="author-actions">
+                            <a href="{% url 'authors_show' author.id %}" class="btn-view">View Profile</a>
+                            <button class="btn-follow" onclick="alert('Following author!')">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">✍️</div>
+            <h2>No authors available</h2>
+            <p>Check back later for our author collection!</p>
+        </div>
+    {% endif %}
+{% endblock %}

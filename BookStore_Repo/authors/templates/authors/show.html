@@ -1,0 +1,267 @@
+{% extends 'authors/base.html' %}
+
+{% block title %}{% if author %}{{ author.name }}{% else %}Author Profile{% endif %} - Book Store{% endblock %}
+
+{% block extra_css %}
+        .author-detail {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .author-image-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .author-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-height: 500px;
+        }
+
+        .author-info-section {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .author-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .author-bio {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .author-details-list {
+            background-color: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 150px;
+        }
+
+        .detail-value {
+            color: #333;
+            text-align: right;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary-action {
+            flex: 1;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-follow-author {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-follow-author:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-view-books {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .btn-view-books:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .books-section {
+            background-color: var(--light-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .books-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .books-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .books-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e9ecef;
+            color: #666;
+        }
+
+        .books-list li:last-child {
+            border-bottom: none;
+        }
+
+        .books-list li:before {
+            content: "📖 ";
+            margin-right: 0.5rem;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .author-detail {
+                padding: 1.5rem;
+            }
+
+            .author-info-section {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .author-name {
+                font-size: 1.75rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .detail-item {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
+
+            .author-image-section {
+                flex: 0 0 auto;
+            }
+        }
+{% endblock %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-section">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'authors_index' %}">Authors</a></li>
+                    <li class="breadcrumb-item active">{% if author %}{{ author.name }}{% else %}Author Profile{% endif %}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if author %}
+        <div class="author-detail">
+            <div class="author-info-section">
+                <div class="author-image-section" style="flex: 0 0 300px;">
+                    <img src="{{ author.image }}" alt="{{ author.name }}" class="author-image">
+                </div>
+                
+                <div style="flex: 1;">
+                    <h1 class="author-name">{{ author.name }}</h1>
+                    
+                    <p class="author-bio">{{ author.bio }}</p>
+                    
+                    <div class="author-details-list">
+                        <div class="detail-item">
+                            <span class="detail-label">📅 Birth Year:</span>
+                            <span class="detail-value">{{ author.birth_year }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">📅 Death Year:</span>
+                            <span class="detail-value">{{ author.death_year }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">🌍 Nationality:</span>
+                            <span class="detail-value">{{ author.nationality }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">✍️ Age:</span>
+                            <span class="detail-value">{{ author.death_year|add:author.birth_year|stringformat:"d" }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn-primary-action btn-follow-author" onclick="alert('Following author!')">
+                            ⭐ Follow Author
+                        </button>
+                        <button class="btn-primary-action btn-view-books" onclick="alert('Filtering books...')">
+                            📚 View Books
+                        </button>
+                    </div>
+                    
+                    <div class="books-section">
+                        <h3>Notable Works</h3>
+                        <ul class="books-list">
+                            {% for book in author.books.split|add:"," %}
+                                {% if book|length > 1 %}
+                                    <li>{{ book|title }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <a href="{% url 'authors_index' %}" class="btn-back">← Back to Authors</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="error-message">
+            <h3>⚠️ Author Not Found</h3>
+            <p>Sorry, we couldn't find the author you're looking for. The profile might have been removed or the ID is incorrect.</p>
+            <a href="{% url 'authors_index' %}" class="btn-back">← Back to Authors</a>
+        </div>
+    {% endif %}
+{% endblock %}
