@@ -1,0 +1,68 @@
+{% extends 'books/base.html' %}
+
+{% block title %}Books - Book Store{% endblock %}
+
+{% block header %}
+<div class="header">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h1>Books Collection</h1>
+            <p>Browse, create, and manage books.</p>
+        </div>
+        <a href="{% url 'book_create' %}" class="btn btn-light fw-semibold">+ Add Book</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        {% if books %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Pages</th>
+                        <th>Price</th>
+                        <th>Created</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                    <tr>
+                        <td>
+                            {% if book.image %}
+                                <img src="{{ book.image.url }}" alt="{{ book.title }}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;">
+                            {% else %}
+                                <div class="bg-light d-flex align-items-center justify-content-center" style="width:56px;height:56px;border-radius:8px;">N/A</div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'book_detail' book.pk %}" class="text-decoration-none fw-semibold">{{ book.title }}</a>
+                        </td>
+                        <td>{{ book.no_of_page }}</td>
+                        <td>${{ book.price }}</td>
+                        <td>{{ book.created_at|date:"Y-m-d" }}</td>
+                        <td class="text-end">
+                            <a href="{% url 'book_detail' book.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                            <a href="{% url 'book_update' book.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <a href="{% url 'book_delete' book.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-5 text-center text-muted">
+            <h5 class="mb-2">No books yet</h5>
+            <p class="mb-3">Create your first book to get started.</p>
+            <a href="{% url 'book_create' %}" class="btn btn-primary">Create Book</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

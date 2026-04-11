@@ -1,5 +1,5 @@
 """
-URL configuration for Book_Store project.
+URL configuration for BookStore_Repo  project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -18,6 +18,8 @@ Including another URLconf
 URL configuration for BookStore_Repo project.
 """
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path, include
 from django.views.generic import TemplateView
 
@@ -31,3 +33,6 @@ urlpatterns = [
 
 # Error handlers
 handler404 = TemplateView.as_view(template_name='404.html')
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

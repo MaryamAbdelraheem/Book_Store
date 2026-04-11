@@ -1,0 +1,37 @@
+{% extends 'books/base.html' %}
+
+{% block title %}{{ action }} Book - Book Store{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb-section">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'book_list' %}">Books</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ action }} Book</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="mb-4">{{ action }} Book</h3>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form }}
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">{{ action }}</button>
+                        <a href="{% url 'book_list' %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
